@@ -147,8 +147,4 @@ However, I still do **not** consider the underlying issue fully resolved because
 1. the original issue scope still appears narrower or different on current `main`
 2. the next step should confirm whether a reconnect or end-to-end delivery edge case still needs code changes beyond test coverage
 
----
 
-## Next Step
-
-My next recommended steps were to open a PR from this branch into `OpenHands/OpenHands:main`, then continue only if maintainers confirm the narrower scope is still useful. That Phase IV submission is now tracked at [OpenHands/OpenHands#14860](https://github.com/OpenHands/OpenHands/pull/14860).
