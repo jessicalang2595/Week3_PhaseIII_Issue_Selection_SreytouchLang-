@@ -7,7 +7,7 @@
 
 **Build focus as of June 18, 2026:**
 
-Phase II showed that the original January 6, 2026 bug description no longer fully matches the current `main` branch of OpenHands. The codebase already contains server-side pending-message queueing from March 16, 2026, so my Phase III work focused on strengthening automated test coverage for the current V1 queue fallback path instead of pretending I was still implementing queueing from scratch. That implementation branch is now published in my writable fork at `sreytouch/OpenHands:test/v1-pending-message-queueing` and later became draft PR [OpenHands/OpenHands#14860](https://github.com/OpenHands/OpenHands/pull/14860).
+Phase II showed that the original January 6, 2026 bug description no longer fully matches the current `main` branch of OpenHands. The codebase already contains server-side pending-message queueing from March 16, 2026, so my Phase III work focused on strengthening automated test coverage for the current V1 queue fallback path instead of pretending I was still implementing queueing from scratch. That implementation branch is now published in my writable fork at `sreytouch/OpenHands:test/v1-pending-message-queueing` and later became PR [OpenHands/OpenHands#14860](https://github.com/OpenHands/OpenHands/pull/14860), now ready for review.
 
 ---
 
@@ -60,7 +60,7 @@ Before writing code, I reviewed `OpenHands/CONTRIBUTING.md` and confirmed these 
 - **Remote branch:** [sreytouch/OpenHands/tree/test/v1-pending-message-queueing](https://github.com/sreytouch/OpenHands/tree/test/v1-pending-message-queueing)
 - **Local commit:** `789fba303`
 - **Remote commit:** [789fba303da66ea87f0439211ed108fd2c499414](https://github.com/sreytouch/OpenHands/commit/789fba303da66ea87f0439211ed108fd2c499414)
-- **Upstream draft PR:** [OpenHands/OpenHands#14860](https://github.com/OpenHands/OpenHands/pull/14860)
+- **Upstream PR:** [OpenHands/OpenHands#14860](https://github.com/OpenHands/OpenHands/pull/14860)
 - **Commit message:** `test(frontend): add V1 pending message queue coverage`
 
 ### Branch Link
@@ -147,5 +147,4 @@ However, I still do **not** consider the underlying issue fully resolved because
 
 1. the original issue scope still appears narrower or different on current `main`
 2. the next step should confirm whether a reconnect or end-to-end delivery edge case still needs code changes beyond test coverage
-
 
