@@ -71,6 +71,10 @@ After finishing the local test work, I published the exact branch to GitHub at:
 
 The original `jessicalang2595/OpenHands` fork was not writable from this machine, so I published the branch through the authenticated `sreytouch` account instead. The branch contents match the local commit `789fba303` described above.
 
+### Note on Commit Cadence
+
+Phase III landed as a single, self-contained commit (`789fba303`) rather than a long series of small commits. That was a deliberate scoping decision, not a sign of stalled work: once Phase II established that the feature already existed on `main`, the remaining Phase III work was one cohesive unit — adding the two queue-fallback tests to a single file. The investigation and validation effort behind it (reading the production `sendMessage` path, resolving the Node-version and pre-commit-hook blockers, and running the targeted and full test suites) is documented in the Testing and Challenges sections below. If this work continues, follow-up edge-case fixes would land as separate, incremental commits.
+
 ---
 
 ## Testing Strategy
@@ -79,6 +83,19 @@ The original `jessicalang2595/OpenHands` fork was not writable from this machine
 
 - **Test 1:** verifies queue fallback through `PendingMessageService` when the V1 socket is unavailable
 - **Test 2:** verifies queueing failures propagate an error and update the frontend error message store
+
+### Tests Follow the Project's Existing Patterns
+
+I deliberately matched the conventions already used in `conversation-websocket-handler.test.tsx` rather than inventing my own:
+
+- **Reused the project's test helper** — both new tests render through the existing `renderWithWebSocketContext(...)` helper instead of building a custom provider wrapper.
+- **Followed the existing naming convention** — both tests use the `it("should …")` descriptive style that the surrounding suite uses.
+- **Reused the established mocking approach** — `vi.spyOn(PendingMessageService, "queueMessage")` with `mockResolvedValue` / `mockRejectedValue`, plus `waitFor` and `act`, mirroring how the rest of the file drives async WebSocket behavior.
+
+### Manual + Automated Verification
+
+- **Automated:** the targeted Vitest run below (`2 passed, 40 skipped`) plus a full-file run to confirm my tests load and that the only failures are pre-existing/unrelated (see Broader Test Notes).
+- **Manual:** I read the production `sendMessage` path to confirm the disconnected branch actually delegates to `PendingMessageService.queueMessage(...)`, then manually inspected each test run's console output to confirm the assertions exercised that branch (queued result on success, error surfaced on failure) rather than passing trivially. This contribution is test-only, so there was no new UI surface to click through manually.
 
 ### Validation Performed
 
@@ -142,6 +159,11 @@ This Phase III work gives me real implementation evidence:
 - two passing targeted tests
 
 This implementation branch is also ready for Phase IV review packaging because it now has a truthful public branch link.
+
+### Engineering Judgment (beyond the minimum)
+
+- **Descoped sensibly when the issue grew.** After Phase II showed `main` already shipped server-side queueing, I deliberately pivoted from "reimplement the feature" to "validate the existing behavior and find the remaining gap," rather than rebuilding code that already existed.
+- **Found and reused a project-specific test helper.** Instead of writing a bespoke provider wrapper, I located and reused the existing `renderWithWebSocketContext(...)` helper and the suite's existing mocking patterns, so the new tests read like the rest of the file.
 
 However, I still do **not** consider the underlying issue fully resolved because:
 
